@@ -39,6 +39,12 @@ module "instance" {
   instance_type          = "t2.micro"
   key_name               = module.instance_key.key_pair_name
   vpc_security_group_ids = [module.instance_sg.security_group_id]
+
+  user_data = <<EOT
+    #!/bin/bash
+    sudo yum install -y java-1.8.0-openjdk
+    java -version
+  EOT
 }
 
 data "http" "myip" {
