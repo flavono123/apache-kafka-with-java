@@ -30,15 +30,33 @@ locals {
   name = var.name
 }
 
+data "aws_vpc" "default" {
+  default = true
+}
+
+data "aws_subnets" "default_public" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
+
+  filter {
+    name   = "tag:Name"
+    values = ["default-public-subnet-1"]
+  }
+}
+
 module "instance" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 5.5"
 
   name = local.name
 
-  instance_type          = "t2.micro"
-  key_name               = module.instance_key.key_pair_name
-  vpc_security_group_ids = [module.instance_sg.security_group_id]
+  instance_type               = "t2.micro"
+  key_name                    = module.instance_key.key_pair_name
+  vpc_security_group_ids      = [module.instance_sg.security_group_id]
+  subnet_id                   = data.aws_subnets.default_public.ids[0]
+  associate_public_ip_address = true
 
   user_data = <<EOT
     #!/bin/bash
