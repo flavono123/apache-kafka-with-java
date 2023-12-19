@@ -147,3 +147,34 @@ Pangyo-testMessage
 ### describeConfigs()
 
 - 브로커(노드)의 구성 키-값을 가져옴
+
+### describeTopics()
+
+- 토픽 정보 가져옴
+```shell
+{
+  test=(
+    name=test, 
+    internal=false, 
+    partitions=(
+      partition=0, 
+      leader=<redacted>:9092 (id: 0 rack: null), 
+      replicas=<redacted>:9092 (id: 0 rack: null), 
+      isr=<redacted>:9092 (id: 0 rack: null)
+    ),
+    (
+      partition=1, 
+      leader=<redacted>:9092 (id: 0 rack: null), 
+      replicas=<redacted>:9092 (id: 0 rack: null), 
+      isr=<redacted>:9092 (id: 0 rack: null)
+    ),
+    (
+      partition=2, 
+      leader=<redacted>:9092 (id: 0 rack: null), 
+      replicas=<redacted>:9092 (id: 0 rack: null), 
+      isr=<redacted>:9092 (id: 0 rack: null)
+    ),
+    authorizedOperations=null
+  )
+}
+```
