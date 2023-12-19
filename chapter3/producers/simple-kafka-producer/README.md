@@ -1,3 +1,5 @@
+# Producer
+
 ## Simple Producer
 
 ```shell
@@ -78,4 +80,24 @@ Pangyo-testMessage
 ...
 # 다른 스레드에서 실행
 [kafka-producer-network-thread | producer-1] INFO org.example.ProducerCallback - test-0@6
+```
+
+# Consumer
+
+## Simple Consumer(WIP)
+
+```shell
+# 실행 시 오류 발생
+[main] INFO org.apache.kafka.clients.consumer.internals.AbstractCoordinator - [Consumer clientId=consumer-test-new-group-1, groupId=test-new-group] (Re-)joining group
+[main] INFO org.apache.kafka.clients.consumer.internals.AbstractCoordinator - [Consumer clientId=consumer-test-new-group-1, groupId=test-new-group] Join group failed with org.apache.kafka.common.errors.MemberIdRequiredException: The group member needs to have a valid member id before actually entering a consumer group
+[main] INFO org.apache.kafka.clients.consumer.internals.AbstractCoordinator - [Consumer clientId=consumer-test-new-group-1, groupId=test-new-group] (Re-)joining group
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-test-new-group-1, groupId=test-new-group] Finished assignment for group at generation 1: {consumer-test-new-group-1-c0affef4-65b0-4558-9004-855af760f35a=Assignment(partitions=[test-0, test-1, test-2])}
+[main] INFO org.apache.kafka.clients.consumer.internals.AbstractCoordinator - [Consumer clientId=consumer-test-new-group-1, groupId=test-new-group] Successfully joined group with generation 1
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-test-new-group-1, groupId=test-new-group] Adding newly assigned partitions: test-1, test-0, test-2
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-test-new-group-1, groupId=test-new-group] Found no committed offset for partition test-1
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-test-new-group-1, groupId=test-new-group] Found no committed offset for partition test-0
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-test-new-group-1, groupId=test-new-group] Found no committed offset for partition test-2
+[main] INFO org.apache.kafka.clients.consumer.internals.SubscriptionState - [Consumer clientId=consumer-test-new-group-1, groupId=test-new-group] Resetting offset for partition test-1 to offset 2.
+[main] INFO org.apache.kafka.clients.consumer.internals.SubscriptionState - [Consumer clientId=consumer-test-new-group-1, groupId=test-new-group] Resetting offset for partition test-0 to offset 7.
+[main] INFO org.apache.kafka.clients.consumer.internals.SubscriptionState - [Consumer clientId=consumer-test-new-group-1, groupId=test-new-group] Resetting offset for partition test-2 to offset 0.
 ```
