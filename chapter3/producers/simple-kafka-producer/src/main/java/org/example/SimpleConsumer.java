@@ -27,7 +27,7 @@ public class SimpleConsumer {
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(configs);
 
-        consumer.subscribe(Arrays.asList(TOPIC_NAME));
+        consumer.subscribe(Arrays.asList(TOPIC_NAME), new RebalanceListener());
 
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(1));
