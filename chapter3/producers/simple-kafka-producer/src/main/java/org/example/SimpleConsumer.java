@@ -7,13 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 
 public class SimpleConsumer {
     private final static Logger logger = LoggerFactory.getLogger(SimpleConsumer.class);
     private final static String TOPIC_NAME = "test";
+    private final static int PARTITION_NUMBER = 0;
     private final static String BOOTSTRAP_SERVERS = "my-kafka:9092";
     private final static String GROUP_ID = "test-manual-sync-commit-for-each-record";
 
@@ -27,7 +28,7 @@ public class SimpleConsumer {
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(configs);
 
-        consumer.subscribe(Arrays.asList(TOPIC_NAME), new RebalanceListener());
+        consumer.assign(Collections.singleton(new TopicPartition(TOPIC_NAME, PARTITION_NUMBER)));
 
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(1));

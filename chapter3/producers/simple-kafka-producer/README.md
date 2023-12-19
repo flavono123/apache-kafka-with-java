@@ -125,3 +125,9 @@ Pangyo-testMessage
 [main] INFO org.example.SimpleConsumer - Commit succeeded for offsets {test-1=OffsetAndMetadata{offset=3, leaderEpoch=0, metadata=''}, test-0=OffsetAndMetadata{offset=12, leaderEpoch=0, metadata=''}, test-2=OffsetAndMetadata{offset=0, leaderEpoch=null, metadata=''}}
 [main] INFO org.example.SimpleConsumer - Commit succeeded for offsets {test-1=OffsetAndMetadata{offset=3, leaderEpoch=0, metadata=''}, test-0=OffsetAndMetadata{offset=12, leaderEpoch=0, metadata=''}, test-2=OffsetAndMetadata{offset=0, leaderEpoch=null, metadata=''}}
 ```
+
+## Kafka Consumer Exact Partition
+
+- `assign()` 사용한다.
+- 컨슈머에 파티션을 직접 할당할 경우 리밸런싱이 일어나지 않는다.
+- 컨슈머에 할당된 파티션을 확인할 땐 `assignment()` 사용한다.
