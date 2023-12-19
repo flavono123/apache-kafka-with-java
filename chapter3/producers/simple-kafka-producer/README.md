@@ -131,3 +131,13 @@ Pangyo-testMessage
 - `assign()` 사용한다.
 - 컨슈머에 파티션을 직접 할당할 경우 리밸런싱이 일어나지 않는다.
 - 컨슈머에 할당된 파티션을 확인할 땐 `assignment()` 사용한다.
+
+## Kafka Consumer Offset Commit Shutdown Hook
+- `wakeup()` 로 `WakeupException` 발생시킨다.
+- 자바 앱 셧다운 훅에서 `wakeup()` 호출한다.
+- `WakeupException` 예외처리 후 리소스(consumer)를 정리한다.
+```shell
+# SIGTERM 받을 시에 훅 실행됨
+[Thread-0] INFO org.example.SimpleConsumer - Shutdown hook
+[main] WARN org.example.SimpleConsumer - Wakeup consumer
+```
