@@ -84,7 +84,7 @@ Pangyo-testMessage
 
 # Consumer
 
-## Simple Consumer(WIP)
+## Simple Consumer
 
 ```shell
 # 실행 시 오류 발생
@@ -101,3 +101,9 @@ Pangyo-testMessage
 [main] INFO org.apache.kafka.clients.consumer.internals.SubscriptionState - [Consumer clientId=consumer-test-new-group-1, groupId=test-new-group] Resetting offset for partition test-0 to offset 7.
 [main] INFO org.apache.kafka.clients.consumer.internals.SubscriptionState - [Consumer clientId=consumer-test-new-group-1, groupId=test-new-group] Resetting offset for partition test-2 to offset 0.
 ```
+
+## Kafka Consumer Sync Commit
+
+- `poll()` 로 받은 모든 메시지 처리 후 `commitSync()` 호출한다.
+ - 마지막 레코드 오프셋을 커밋한다.
+- 자동 커밋, 비동기 오프셋 커밋과 달리 동기 시간만큼 대기하여 처리량이 낮아진다.

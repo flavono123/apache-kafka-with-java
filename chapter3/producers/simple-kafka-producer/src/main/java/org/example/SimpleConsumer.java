@@ -16,7 +16,7 @@ public class SimpleConsumer {
     private final static Logger logger = LoggerFactory.getLogger(SimpleConsumer.class);
     private final static String TOPIC_NAME = "test";
     private final static String BOOTSTRAP_SERVERS = "my-kafka:9092";
-    private final static String GROUP_ID = "test-new-group";
+    private final static String GROUP_ID = "test-manual-sync-commit";
 
     public static void main(String[] args) {
         Properties configs = new Properties();
@@ -24,6 +24,7 @@ public class SimpleConsumer {
         configs.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_ID);
         configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        configs.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(configs);
 
@@ -34,6 +35,7 @@ public class SimpleConsumer {
             for (ConsumerRecord<String, String> record : records) {
                 logger.info("{}", record);
             }
+            consumer.commitSync();
         }
     }
 }

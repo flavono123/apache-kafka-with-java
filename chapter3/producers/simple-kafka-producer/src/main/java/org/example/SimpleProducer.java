@@ -25,7 +25,7 @@ public class SimpleProducer {
 
         int partitionNo = 0;
         String messageKey = "Pangyo";
-        String messageValue = "26";
+        String messageValue = "27";
         ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, partitionNo, messageKey, messageValue);
 
         producer.send(record, new ProducerCallback());
