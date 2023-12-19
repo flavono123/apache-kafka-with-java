@@ -178,3 +178,10 @@ Pangyo-testMessage
   )
 }
 ```
+
+### listTopics()
+- 토픽 목록 가져옴
+```shell
+[main] INFO org.example.KafkaAdminClient - (name=test, internal=false)
+[main] INFO org.example.KafkaAdminClient - (name=hello.kafka, internal=false)
+```
