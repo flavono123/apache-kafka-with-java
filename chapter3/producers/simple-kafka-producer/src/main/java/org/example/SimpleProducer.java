@@ -23,9 +23,9 @@ public class SimpleProducer {
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(configs);
 
-        int partitionNo = 0;
+        int partitionNo = 1;
         String messageKey = "Pangyo";
-        String messageValue = "28";
+        String messageValue = "29";
         ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, partitionNo, messageKey, messageValue);
 
         producer.send(record, new ProducerCallback());

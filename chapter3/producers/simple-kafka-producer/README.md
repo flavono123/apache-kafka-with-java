@@ -113,3 +113,15 @@ Pangyo-testMessage
 - 레코드마다 commitSync() 호출한다.
 - 토픽, 파티션과 오프셋, 메타데이터의 해시맵 ` Map<TopicPartition, OffsetAndMetadata>`
 - 처리한 오프셋에 1을 더해 커밋한다.
+
+## Kafka Consumer Async Commit
+- `commitAsync()` 로 비동기 처리
+- 콜백 함수로 결과(오프셋 또는 에러)를 받을 수 있다.
+  - 주기적으로 호출됨
+```shell
+[main] INFO org.example.SimpleConsumer - Commit succeeded for offsets {test-1=OffsetAndMetadata{offset=2, leaderEpoch=null, metadata=''}, test-0=OffsetAndMetadata{offset=12, leaderEpoch=0, metadata=''}, test-2=OffsetAndMetadata{offset=0, leaderEpoch=null, metadata=''}}
+[main] INFO org.example.SimpleConsumer - Commit succeeded for offsets {test-1=OffsetAndMetadata{offset=2, leaderEpoch=null, metadata=''}, test-0=OffsetAndMetadata{offset=12, leaderEpoch=0, metadata=''}, test-2=OffsetAndMetadata{offset=0, leaderEpoch=null, metadata=''}}
+[main] INFO org.example.SimpleConsumer - ConsumerRecord(topic = test, partition = 1, leaderEpoch = 0, offset = 2, CreateTime = 1702966257036, serialized key size = 6, serialized value size = 2, headers = RecordHeaders(headers = [], isReadOnly = false), key = Pangyo, value = 29)
+[main] INFO org.example.SimpleConsumer - Commit succeeded for offsets {test-1=OffsetAndMetadata{offset=3, leaderEpoch=0, metadata=''}, test-0=OffsetAndMetadata{offset=12, leaderEpoch=0, metadata=''}, test-2=OffsetAndMetadata{offset=0, leaderEpoch=null, metadata=''}}
+[main] INFO org.example.SimpleConsumer - Commit succeeded for offsets {test-1=OffsetAndMetadata{offset=3, leaderEpoch=0, metadata=''}, test-0=OffsetAndMetadata{offset=12, leaderEpoch=0, metadata=''}, test-2=OffsetAndMetadata{offset=0, leaderEpoch=null, metadata=''}}
+```
