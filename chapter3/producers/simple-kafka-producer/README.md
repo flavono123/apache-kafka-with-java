@@ -107,3 +107,9 @@ Pangyo-testMessage
 - `poll()` 로 받은 모든 메시지 처리 후 `commitSync()` 호출한다.
  - 마지막 레코드 오프셋을 커밋한다.
 - 자동 커밋, 비동기 오프셋 커밋과 달리 동기 시간만큼 대기하여 처리량이 낮아진다.
+
+### Sync Commit for each record
+
+- 레코드마다 commitSync() 호출한다.
+- 토픽, 파티션과 오프셋, 메타데이터의 해시맵 ` Map<TopicPartition, OffsetAndMetadata>`
+- 처리한 오프셋에 1을 더해 커밋한다.
