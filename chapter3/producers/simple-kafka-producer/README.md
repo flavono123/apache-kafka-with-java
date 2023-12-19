@@ -141,3 +141,9 @@ Pangyo-testMessage
 [Thread-0] INFO org.example.SimpleConsumer - Shutdown hook
 [main] WARN org.example.SimpleConsumer - Wakeup consumer
 ```
+
+## Kafka Admin Clinet
+
+### describeConfigs()
+
+- 브로커(노드)의 구성 키-값을 가져옴
