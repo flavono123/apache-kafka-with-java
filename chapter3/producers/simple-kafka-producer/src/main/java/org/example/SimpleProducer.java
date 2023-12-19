@@ -19,12 +19,13 @@ public class SimpleProducer {
         configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
         configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        configs.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, CustomPartitioner.class.getName());
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(configs);
 
         int partitionNo = 0;
         String messageKey = "Pangyo";
-        String messageValue = "23";
+        String messageValue = "24";
         ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, partitionNo, messageKey, messageValue);
         producer.send(record);
         logger.info("{}", record);
