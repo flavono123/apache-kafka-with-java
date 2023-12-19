@@ -60,3 +60,13 @@ $ bin/kafka-console-consumer.sh \
 null-testMessage
 Pangyo-testMessage
 ```
+
+## Kafka Producer Sync Callback
+
+```shell
+# 실행 로그
+...
+# test 토픽, 파티션 0, 오프셋 5
+[main] INFO org.example.SimpleProducer - test-0@5
+
+```
