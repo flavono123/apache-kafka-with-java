@@ -3,7 +3,6 @@ package org.example;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,17 +25,13 @@ public class SimpleProducer {
 
         int partitionNo = 0;
         String messageKey = "Pangyo";
-        String messageValue = "25";
+        String messageValue = "26";
         ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, partitionNo, messageKey, messageValue);
-        try {
-            RecordMetadata metadata = producer.send(record).get();
-            logger.info("{}", record);
-            logger.info(metadata.toString());
-        } catch (Exception e) {
-            logger.error(e.getMessage(),e);
-        } finally {
-            producer.flush();
-            producer.close();
-        }
+
+        producer.send(record, new ProducerCallback());
+        logger.info("{}", record);
+
+        producer.flush();
+        producer.close();
     }
 }

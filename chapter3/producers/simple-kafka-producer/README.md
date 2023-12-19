@@ -70,3 +70,12 @@ Pangyo-testMessage
 [main] INFO org.example.SimpleProducer - test-0@5
 
 ```
+
+## Producer Async Callback
+
+```shell
+# 실행 로그
+...
+# 다른 스레드에서 실행
+[kafka-producer-network-thread | producer-1] INFO org.example.ProducerCallback - test-0@6
+```
