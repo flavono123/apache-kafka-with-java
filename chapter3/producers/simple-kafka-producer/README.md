@@ -193,3 +193,4 @@ Pangyo-testMessage
   - `StreamsBuilder.stream()` 으로 소스 프로세서를 생성하여 반환 가능
 - `StreamsBuilder.to()` 로 토픽에 레코드를 저장하는 싱크 프로세서
 - `StreamsBuilder.filter()` 로 레코드를 필터링하는 스트림 프로세서
+- `KStream.join()` 으로 두 스트림 또는 스트림과 테이블을 조인한다.
