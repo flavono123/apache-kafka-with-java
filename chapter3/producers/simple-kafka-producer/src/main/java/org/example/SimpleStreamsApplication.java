@@ -9,10 +9,10 @@ import org.apache.kafka.streams.kstream.KStream;
 import java.util.Properties;
 
 public class SimpleStreamsApplication {
-    private static String APPLICATION_NAME = "streams-application";
+    private static String APPLICATION_NAME = "streams-filter-application";
     private static String BOOTSTRAP_SERVERS = "my-kafka:9092";
     private static String STREAM_LOG = "stream_log";
-    private static String STREAM_LOG_COPY = "stream_log_copy";
+    private static String STREAM_LOG_FILTER = "stream_log_filter";
 
     public static void main(String []args) {
         Properties props = new Properties();
@@ -23,7 +23,8 @@ public class SimpleStreamsApplication {
 
         StreamsBuilder builder = new StreamsBuilder();
         KStream<String, String> streamLog = builder.stream(STREAM_LOG);
-        streamLog.to(STREAM_LOG_COPY);
+        KStream<String, String> filteredStreamLog = streamLog.filter((key, value) -> value.length() > 5);
+        filteredStreamLog.to(STREAM_LOG_FILTER);
 
         KafkaStreams streams = new KafkaStreams(builder.build(), props);
         streams.start();

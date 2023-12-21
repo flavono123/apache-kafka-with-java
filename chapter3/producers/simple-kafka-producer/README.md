@@ -192,3 +192,4 @@ Pangyo-testMessage
 - KStream: 토픽을 컨슈머처럼 모든 레코드를 읽는다.
   - `StreamsBuilder.stream()` 으로 소스 프로세서를 생성하여 반환 가능
 - `StreamsBuilder.to()` 로 토픽에 레코드를 저장하는 싱크 프로세서
+- `StreamsBuilder.filter()` 로 레코드를 필터링하는 스트림 프로세서
