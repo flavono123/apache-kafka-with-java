@@ -195,3 +195,11 @@ Pangyo-testMessage
 - `StreamsBuilder.filter()` 로 레코드를 필터링하는 스트림 프로세서
 - `KStream.join()` 으로 두 스트림 또는 테이블과 조인한다.
   - 글로벌 테이블(GlobalKTable)과 조인할 경우, 레코드 매칭 시 스트림의 키/값 모두 사용할 수 있다(첫번째 인자). 
+
+## Kafka Processor API
+- `Processor`
+  - `init()` : 프로세서 생성자, `ProcessorContext` 초기화.
+  - `process()` : 레코드를 처리한다.
+    - `ProcessorContext.forward()` : 레코드를 다른 프로세서로 전달한다.
+    - `ProcessorContext.commit()` : 프로세싱이 처리 되었음을 명시적으로 커밋한다.
+  - `close()` : 프로세서 종료 시 리소스 정리.
