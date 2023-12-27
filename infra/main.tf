@@ -27,7 +27,10 @@ provider "aws" {
 # an instance with new keypair
 # assume that the account has a default VPC, subnets
 locals {
-  name = var.name
+  names = [
+    "${var.name_prefix}-a",
+    "${var.name_prefix}-b"
+  ]
 }
 
 data "aws_vpc" "default" {
@@ -50,7 +53,9 @@ module "instance" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 5.5"
 
-  name = local.name
+  count = length(local.names)
+
+  name = local.names[count.index]
 
   instance_type               = "t2.micro"
   key_name                    = module.instance_key.key_pair_name
@@ -75,8 +80,8 @@ module "instance_sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 5.1"
 
-  name        = local.name
-  description = "Security group for ${local.name} practice"
+  name        = var.name_prefix
+  description = "Security group for ${var.name_prefix} practice"
 
   # HACK: 브로커(9092)와 주키퍼(2181) source cidr all이어야 동작함. 왜?
   ingress_cidr_blocks = ["${chomp(data.http.myip.body)}/32"]
@@ -103,29 +108,31 @@ module "instance_key" {
   source  = "terraform-aws-modules/key-pair/aws"
   version = "~> 2.0"
 
-  key_name              = local.name
+  key_name              = var.name_prefix
   create_private_key    = true
   private_key_algorithm = "ED25519"
 }
 
 resource "terraform_data" "private_key_pem" {
+  count = length(local.names)
+
   triggers_replace = [
     module.instance_key.private_key_openssh,
   ]
 
   provisioner "local-exec" {
     command = <<EOT
-      rm -f ${local.name}.pem
-      echo '${module.instance_key.private_key_openssh}' > ${local.name}.pem
-      chmod 400 ${local.name}.pem
+      rm -f ${var.name_prefix}.pem
+      echo '${module.instance_key.private_key_openssh}' > ${var.name_prefix}.pem
+      chmod 400 ${var.name_prefix}.pem
     EOT
   }
 
   connection {
     type        = "ssh"
     user        = "ec2-user"
-    private_key = file("${local.name}.pem")
-    host        = module.instance.public_ip
+    private_key = file("${var.name_prefix}.pem")
+    host        = module.instance[count.index].public_ip
   }
 
   provisioner "remote-exec" {
