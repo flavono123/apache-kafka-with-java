@@ -28,8 +28,7 @@ provider "aws" {
 # assume that the account has a default VPC, subnets
 locals {
   names = [
-    "${var.name_prefix}-a",
-    "${var.name_prefix}-b"
+    for i in range(0, var.num_of_brokers) : "${var.name_prefix}-broker-${i}"
   ]
 }
 
