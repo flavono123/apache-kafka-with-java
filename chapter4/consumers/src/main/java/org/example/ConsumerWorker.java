@@ -1,18 +1,34 @@
 package org.example;
 
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.Properties;
+
 public class ConsumerWorker implements Runnable {
     private final static Logger logger = LoggerFactory.getLogger(ConsumerWorker.class);
-    private String recordValue;
+    private Properties prop;
+    private String topic;
+    private String threadName;
+    private KafkaConsumer<String, String> consumer;
 
-    ConsumerWorker(String recordValue) {
-        this.recordValue = recordValue;
+    ConsumerWorker(Properties prop, String topic, int number) {
+        this.prop = prop;
+        this.topic = topic;
+        this.threadName = "consumer-thread-" + number;
     }
 
     @Override
     public void run() {
-        logger.info("thread:{}\trecord:{}", Thread.currentThread().getName(), recordValue);
+        consumer = new KafkaConsumer<>(prop);
+        consumer.subscribe(Arrays.asList(topic));
+        while (true) {
+            consumer.poll(Duration.ofSeconds(1)).forEach(record -> {
+                logger.info("{}: {}", threadName, record);
+            });
+        }
     }
 }
