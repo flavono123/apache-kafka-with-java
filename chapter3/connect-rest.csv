@@ -1,0 +1,30 @@
+METHOD,PATH,DESC
+GET,/,"Top-level (root) request that gets the version of the Connect worker that serves the REST request, the git commit ID of the source code, and the Kafka cluster ID that the worker is connected to."
+GET,/connectors,Get a list of active connectors
+POST,/connectors,"Create a new connector, returning the current connector info if successful. Return
+409 (Conflict) if rebalance is in process, or if the connector already exists."
+GET,/connectors/(string:name),Get information about the connector.
+GET,/connectors/(string:name)/config,Get the configuration for the connector.
+PUT,/connectors/(string:name)/config,"Create a new connector using the given configuration, or update the configuration for an existing connector. Returns
+information about the connector after the change has been made. Return 409 (Conflict) if
+rebalance is in process."
+GET,/connectors/(string:name)/status,"Gets the current status of the connector, including:"
+POST,/connectors/(string:name)/restart,"Restart the connector. You may use the following query parameters to restart
+any combination of the Connector and/or Task instances for the connector."
+PUT,/connectors/(string:name)/pause,"Pause the connector and its tasks, which stops message processing until the connector is resumed.
+This call asynchronous and the tasks will not transition to PAUSED state at the same time."
+PUT,/connectors/(string:name)/resume,"Resume a paused connector or do nothing if the connector is not paused.
+This call asynchronous and the tasks will not transition to RUNNING state at the same time."
+DELETE,/connectors/(string:name)/,"Delete a connector, halting all tasks and deleting its configuration. Return 409 (Conflict)
+if rebalance is in process."
+GET,/connectors/(string:name)/tasks,Get a list of tasks currently running for the connector.
+GET,/connectors/(string:name)/tasks/(int:taskid)/status,Get a task’s status.
+POST,/connectors/(string:name)/tasks/(int:taskid)/restart,Restart an individual task.
+GET,/connectors/(string:name)/topics,"Returns a list of connector topic names. There is no defined order in which the topics are returned and consecutive calls may return the same topic names but in different order. This request is independent of whether a connector is running, and will return an empty set of topics, both for connectors that don’t have active topics as well as non-existent connectors."
+PUT,/connectors/(string:name)/topics/reset,Resets the set of topic names that the connector has been using since its creation or since the last time its set of active topics was reset.
+GET,/connector-plugins/,"Return a list of connector plugins installed in the Kafka Connect cluster.
+Note that the API only checks for connectors on the worker that handles the
+request, which means you might see inconsistent results (especially during a
+rolling upgrade if you add new connector jars)."
+PUT,/connector-plugins/(string:name)/config/validate,"Validate the provided configuration values against the configuration definition. This API
+performs per config validation, returns suggested values and error messages during validation."

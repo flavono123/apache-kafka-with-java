@@ -1,0 +1,92 @@
+[
+    {
+        "method": "GET",
+        "path": "/",
+        "description": "Top-level (root) request that gets the version of the Connect worker that serves the REST request, the git commit ID of the source code, and the Kafka cluster ID that the worker is connected to."
+    },
+    {
+        "method": "GET",
+        "path": "/connectors",
+        "description": "Get a list of active connectors"
+    },
+    {
+        "method": "POST",
+        "path": "/connectors",
+        "description": "Create a new connector, returning the current connector info if successful. Return\n409 (Conflict) if rebalance is in process, or if the connector already exists."
+    },
+    {
+        "method": "GET",
+        "path": "/connectors/(string:name)",
+        "description": "Get information about the connector."
+    },
+    {
+        "method": "GET",
+        "path": "/connectors/(string:name)/config",
+        "description": "Get the configuration for the connector."
+    },
+    {
+        "method": "PUT",
+        "path": "/connectors/(string:name)/config",
+        "description": "Create a new connector using the given configuration, or update the configuration for an existing connector. Returns\ninformation about the connector after the change has been made. Return 409 (Conflict) if\nrebalance is in process."
+    },
+    {
+        "method": "GET",
+        "path": "/connectors/(string:name)/status",
+        "description": "Gets the current status of the connector, including:"
+    },
+    {
+        "method": "POST",
+        "path": "/connectors/(string:name)/restart",
+        "description": "Restart the connector. You may use the following query parameters to restart\nany combination of the Connector and/or Task instances for the connector."
+    },
+    {
+        "method": "PUT",
+        "path": "/connectors/(string:name)/pause",
+        "description": "Pause the connector and its tasks, which stops message processing until the connector is resumed.\nThis call asynchronous and the tasks will not transition to PAUSED state at the same time."
+    },
+    {
+        "method": "PUT",
+        "path": "/connectors/(string:name)/resume",
+        "description": "Resume a paused connector or do nothing if the connector is not paused.\nThis call asynchronous and the tasks will not transition to RUNNING state at the same time."
+    },
+    {
+        "method": "DELETE",
+        "path": "/connectors/(string:name)/",
+        "description": "Delete a connector, halting all tasks and deleting its configuration. Return 409 (Conflict)\nif rebalance is in process."
+    },
+    {
+        "method": "GET",
+        "path": "/connectors/(string:name)/tasks",
+        "description": "Get a list of tasks currently running for the connector."
+    },
+    {
+        "method": "GET",
+        "path": "/connectors/(string:name)/tasks/(int:taskid)/status",
+        "description": "Get a task’s status."
+    },
+    {
+        "method": "POST",
+        "path": "/connectors/(string:name)/tasks/(int:taskid)/restart",
+        "description": "Restart an individual task."
+    },
+    {
+        "method": "GET",
+        "path": "/connectors/(string:name)/topics",
+        "description": "Returns a list of connector topic names. There is no defined order in which the topics are returned and consecutive calls may return the same topic names but in different order. This request is independent of whether a connector is running, and will return an empty set of topics, both for connectors that don’t have active topics as well as non-existent connectors."
+    },
+    {
+        "method": "PUT",
+        "path": "/connectors/(string:name)/topics/reset",
+        "description": "Resets the set of topic names that the connector has been using since its creation or since the last time its set of active topics was reset."
+    },
+    {
+        "method": "GET",
+        "path": "/connector-plugins/",
+        "description": "Return a list of connector plugins installed in the Kafka Connect cluster.\nNote that the API only checks for connectors on the worker that handles the\nrequest, which means you might see inconsistent results (especially during a\nrolling upgrade if you add new connector jars)."
+    },
+    {
+        "method": "PUT",
+        "path": "/connector-plugins/(string:name)/config/validate",
+        "description": "Validate the provided configuration values against the configuration definition. This API\nperforms per config validation, returns suggested values and error messages during validation."
+    }
+]
