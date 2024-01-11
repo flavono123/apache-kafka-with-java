@@ -23,21 +23,8 @@ public class SpringConsumerApplication {
         application.run(args);
     }
 
-    @KafkaListener(topics = "test", groupId = "test-record-listener")
-    public void recordListener(ConsumerRecords<String, String> records, Acknowledgment ack) {
-        records.forEach(r -> logger.info(r.toString()));
-        ack.acknowledge();
-    }
-
-
-    @KafkaListener(topicPartitions = {
-            @TopicPartition(topic = "test01", partitions = {"0", "1"}),
-            @TopicPartition(topic = "test02", partitionOffsets = @PartitionOffset(partition = "0", initialOffset = "3"))
-        },
-        groupId = "test-partition-listener"
-    )
-    public void partitionListener(ConsumerRecords<String, String> records, Consumer<String, String> consumer) {
-        records.forEach(r -> logger.info(r.toString()));
-        consumer.commitAsync();
+    @KafkaListener(topics = "test", groupId = "test-custom-listener", containerFactory = "customContainerFactory")
+    public void listen(String data) {
+        logger.info("Received: " + data);
     }
 }
