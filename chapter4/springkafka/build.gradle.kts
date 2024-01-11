@@ -12,6 +12,7 @@ repositories {
 dependencies {
     implementation("org.springframework.kafka:spring-kafka:2.5.10.RELEASE")
     implementation("org.springframework.boot:spring-boot-starter:2.4.0")
+    implementation("org.slf4j:slf4j-simple:1.7.30")
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
