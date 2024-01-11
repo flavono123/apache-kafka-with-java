@@ -85,4 +85,3 @@ spring.kafka.listener.no-poll-threshold
 spring.kafka.listener.poll-timeout
 spring.kafka.listener.type
 ```
-```

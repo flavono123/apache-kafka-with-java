@@ -3,4 +3,4 @@ spring:
     consumer:
       bootstrap-servers: my-kafka:9092
     listener:
-      type: RECORD
+      type: BATCH

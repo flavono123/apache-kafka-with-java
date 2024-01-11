@@ -1,7 +1,7 @@
 package org.example;
 
 
-import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -9,6 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.PartitionOffset;
 import org.springframework.kafka.annotation.TopicPartition;
+
+import java.util.List;
 
 @SpringBootApplication
 public class SpringConsumerApplication {
@@ -20,23 +22,23 @@ public class SpringConsumerApplication {
     }
 
     @KafkaListener(topics = "test", groupId = "test-record-listener")
-    public void recordListener(ConsumerRecord<String, String> record) {
-        logger.info(record.toString());
+    public void recordListener(ConsumerRecords<String, String> records) {
+        records.forEach(r -> logger.info(r.toString()));
     }
 
     @KafkaListener(topics = "test", groupId = "test-string-listener")
-    public void stringListener(String record) {
-        logger.info(record);
+    public void stringListener(List<String> messages) {
+        messages.forEach(m -> logger.info(m));
     }
 
     @KafkaListener(topics = "test", groupId = "test-property-listener", properties = {"max.poll.interval.ms:60000", "auto.offset.reset:earliest"})
-    public void propertyListener(String record) {
-        logger.info(record);
+    public void propertyListener(List<String> messages) {
+        messages.forEach(m -> logger.info(m));
     }
 
     @KafkaListener(topics = "test", groupId = "test-concurrent-listener", concurrency = "3")
-    public void concurrentListener(String record) {
-        logger.info(record);
+    public void concurrentListener(List<String> messages) {
+        messages.forEach(m -> logger.info(m));
     }
 
     @KafkaListener(topicPartitions = {
@@ -45,7 +47,7 @@ public class SpringConsumerApplication {
         },
         groupId = "test-partition-listener"
     )
-    public void partitionListener(ConsumerRecord<String, String> record) {
-        logger.info(record.toString());
+    public void partitionListener(ConsumerRecords<String, String> records) {
+        records.forEach(r -> logger.info(r.toString()));
     }
 }
