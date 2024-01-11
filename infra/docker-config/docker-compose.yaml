@@ -1,0 +1,58 @@
+# docker compose with burrow, telegraf, es and grafana
+version: '3'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - 2181:2181
+
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181/local
+      KAFKA_ADVERTISED_HOST_NAME: YOUR-IP
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_CREATE_TOPICS: "test:3:1"
+
+  burrow:
+    image: ghcr.io/linkedin/burrow/burrow:v1.6.0
+    volumes:
+      - ${PWD}/burrow.toml:/etc/burrow/burrow.toml
+      - ${PWD}/tmp:/var/tmp/burrow
+    ports:
+      - 8000:8000
+    depends_on:
+      - kafka
+      - zookeeper
+    restart: always
+  
+  telegraf:
+    image: telegraf:1.27.4
+    volumes:
+    - ${PWD}/telegraf.conf:/etc/telegraf/telegraf.conf
+    depends_on:
+    - burrow
+  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.16
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - ${PWD}/elasticsearch-data:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - 9200:9200
+  
+  grafana:
+    image: grafana/grafana-oss
+    volumes:
+      - ${PWD}/grafana-storage:/var/lib/grafana
+    ports:
+      - 3000:3000

@@ -28,8 +28,7 @@ provider "aws" {
 # assume that the account has a default VPC, subnets
 locals {
   names = [
-    "${var.name_prefix}-a",
-    "${var.name_prefix}-b"
+    for i in range(0, var.num_of_brokers) : "${var.name_prefix}-broker-${i}"
   ]
 }
 
@@ -57,7 +56,7 @@ module "instance" {
 
   name = local.names[count.index]
 
-  instance_type               = "t2.micro"
+  instance_type               = "t2.large"
   key_name                    = module.instance_key.key_pair_name
   vpc_security_group_ids      = [module.instance_sg.security_group_id]
   subnet_id                   = data.aws_subnets.default_public.ids[0]
@@ -96,6 +95,13 @@ module "instance_sg" {
     {
       rule        = "zookeeper-2181-tcp"
       cidr_blocks = "0.0.0.0/0"
+    },
+    {
+      from_port   = 3000
+      to_port     = 3000
+      protocol    = "tcp"
+      cidr_blocks = "${chomp(data.http.myip.body)}/32"
+      description = "Grafana"
     }
   ]
 
